@@ -38,3 +38,4 @@ RST : GPIO10 (share with SSD2805 for hw reset)<br>
 
 ## Example Output
 Serial Monitor shows in real time the finger positions with pressure data.
+![](example_output.png)
