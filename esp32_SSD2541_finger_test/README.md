@@ -23,7 +23,7 @@ SSD2805+SSD2541 demo kit with ESP32-Pico-kit.
 ![](./interface_diagram.png)<br>
 
 ### Compiler
-Arduino ESP32 core v1.0.0-4c4, Arduino IDE 1.8.1
+Arduino ESP32 core v1.0.0-rc4, Arduino IDE 1.8.1
 
 #### Pin Assignment:
 SDA : GPIO26<br>
