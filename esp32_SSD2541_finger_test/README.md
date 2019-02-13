@@ -19,6 +19,9 @@ This example demonstrates `SSD2541_getPoint(args)` with coordinates of your fing
 ### Hardware Required
 SSD2805+SSD2541 demo kit with ESP32-Pico-kit.
 
+### Interface diagram
+![](./interface_diagram.png)<br>
+
 ### Compiler
 Arduino ESP32 core v1.0.0-4c4, Arduino IDE 1.8.1
 
@@ -29,13 +32,13 @@ IRQ : GPIO38 (not used in this demo)<br>
 RST : GPIO10 (share with SSD2805 for hw reset)<br>
 
 ### Build and Flash
-(1) First, make sure ESP32 Arduino core has been installed. 
-
-(2) Select ESP32 Pico Kit from Board Manager
-
-(3) From Sketch->Upload. Open Serial Monitor to observe your finger positions.
+(1) First, make sure ESP32 Arduino core has been installed.<br>
+![](install_esp32_arduino_core.png)<br>
+(2) Select ESP32 Pico Kit from Board Manager.<br>
+![](select_ESP32_Pico_Kit.png)<br>
+(3) From Sketch->Upload. Open Serial Monitor to observe your finger positions.<br>
 
 
 ## Example Output
 Serial Monitor shows in real time the finger positions with pressure data.
-![](example_output.png)
+![](./example_output.png)
