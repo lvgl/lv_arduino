@@ -35,12 +35,14 @@ void hal_init(void)
 {
     /*Initialize the display*/
     lv_disp_drv_t disp_drv;
+    lv_disp_drv_init(&disp_drv); 
     disp_drv.disp_flush = my_disp_flush;
     lv_disp_drv_register(&disp_drv);
 
     
     /*Initialize the touch pad*/
     lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv); 
     indev_drv.type = LV_INDEV_TYPE_POINTER;
     indev_drv.read = my_tp_read;
     lv_indev_drv_register(&indev_drv);
