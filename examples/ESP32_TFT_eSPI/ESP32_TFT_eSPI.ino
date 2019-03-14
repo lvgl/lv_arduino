@@ -7,6 +7,7 @@
 Ticker tick; /* timer for interrupt handler */
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
+#if USE_LV_LOG != 0
 /* Serial debugging */
 void my_print(lv_log_level_t level, const char * file, uint32_t line, const char * dsc)
 {
@@ -14,6 +15,7 @@ void my_print(lv_log_level_t level, const char * file, uint32_t line, const char
   Serial.printf("%s@%d->%s\r\n", file, line, dsc);
   delay(100);
 }
+#endif
 
 /* Display flushing */
 void disp_flush(int32_t x1, int32_t y1, int32_t x2, int32_t y2, const lv_color_t *color_p) {
@@ -59,7 +61,10 @@ void setup() {
   Serial.begin(115200); /* prepare for possible serial debug */
 
   lv_init();
+
+#if USE_LV_LOG != 0
   lv_log_register_print(my_print); /* register print function for debugging */
+#endif
 
   tft.begin(); /* TFT init */
   tft.setRotation(1); /* Landscape orientation */

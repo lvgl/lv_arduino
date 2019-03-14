@@ -8,6 +8,10 @@ There is simple example which uses https://github.com/Bodmer/TFT_eSPI library as
 
 LittlevGL library has its own configuration file in `lv_conf.h` file, which is locatd in LittlevGL library folder. Please get in mind to check that corresponding resolutions in LVGL configuration match the ones in TFT_eSPI and with physical resolution of your display.
 
+Example result should looks like this:
+
+![LVGL Arduino example result](extras/img/lvglarduino.jpg)
+
 ## Debugging
 
 In case of trouble there are debug information inside LVGL. In the `ESP32_TFT_eSPI` example there is `my_print` method, which allow to send this debug information to the serial interface. To enable this feature you have to edit `lv_conf.h` file and enable logging in section `log settings`:
