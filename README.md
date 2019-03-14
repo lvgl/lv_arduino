@@ -8,9 +8,16 @@ There is simple example which uses https://github.com/Bodmer/TFT_eSPI library as
 
 LittlevGL library has its own configuration file in `lv_conf.h` file, which is locatd in LittlevGL library folder. Please get in mind to check that corresponding resolutions in LVGL configuration match the ones in TFT_eSPI and with physical resolution of your display.
 
-Example result should looks like this:
+Example result should look like this:
 
 ![LVGL Arduino example result](extras/img/lvglarduino.jpg)
+
+Tested with:
+
+  * My own ESP32 board, module ESP32 Wroom
+  * PC OS: Linux, Ubuntu 16.04 LTS
+  * IDE: Arduino IDE 1.8.8
+  * ESP32 Core: 1.0.1
 
 ## Debugging
 
