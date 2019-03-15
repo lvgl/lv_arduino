@@ -1,0 +1,21 @@
+{
+  "name":"LittlevGL",
+  "description":"Full-featured Graphics Library for embedded systems",
+  "keywords":"display,gui",
+  "authors":
+  {
+    "name": "Gabor Kiss-Vamosi",
+    "maintainer": true
+  },
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/littlevgl/arduino"
+  },
+  "version": "1.0.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "build": {
+    "libCompatMode": "strict"
+  }
+}
