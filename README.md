@@ -1,6 +1,6 @@
 # LittlevGL Arduino library
 
-This library allows to use LittlevGL as an Arduino library. Library can be installed via Arduino IDE Library Manager or as an .ZIP library.
+This library allows to use LittlevGL (v6.x) as an Arduino library. Library can be installed via Arduino IDE Library Manager or as an .ZIP library.
 
 ## Example
 
@@ -15,9 +15,9 @@ Example result should look like this:
 Tested with:
 
   * My own ESP32 board, module ESP32 Wroom
-  * PC OS: Linux, Ubuntu 16.04 LTS
-  * IDE: Arduino IDE 1.8.8
-  * ESP32 Core: 1.0.1
+  * PC OS: Linux, Ubuntu 18.04 LTS
+  * IDE: Arduino IDE 1.8.9
+  * ESP32 Core: 1.0.2
 
 ## Debugging
 
