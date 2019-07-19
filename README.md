@@ -36,4 +36,4 @@ In case of trouble there are debug information inside LVGL. In the `ESP32_TFT_eS
 #  define LV_LOG_LEVEL    LV_LOG_LEVEL_TRACE
 ```
 
-After enabling log module and setting LV_LOG_LEVEL accordingly the output log is sent to he `Serial` port @ 115200 Bd. After each line sent there is 100ms delay to allow the serial transfer to finish. This delay can be commentd out in `my_print` method.
+After enabling log module and setting LV_LOG_LEVEL accordingly the output log is sent to he `Serial` port @ 115200 Bd. After each line sent there is 100ms delay to allow the serial transfer to finish. This delay can be commented out in `my_print` method.
