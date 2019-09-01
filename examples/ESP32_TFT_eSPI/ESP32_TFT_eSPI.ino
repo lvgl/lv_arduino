@@ -45,18 +45,18 @@ static void lv_tick_handler(void)
 }
 
 /* Reading input device (simulated encoder here) */
-bool read_encoder(lv_indev_drv_t * indev, lv_indev_data_t * data)
+bool read_touchscreen(lv_indev_drv_t * indev, lv_indev_data_t * data)
 {
-  static int32_t last_diff = 0;
-  int32_t diff = 0; /* Dummy - no movement */
-  int btn_state = LV_INDEV_STATE_REL; /* Dummy - no press */
 
-  data->enc_diff = diff - last_diff;;
-  data->state = btn_state;
+  uint16_t x = 0, y = 0; // To store the touch coordinates
 
-  last_diff = diff;
-
-  return false;
+  // Pressed will be set true is there is a valid touch on the screen
+  boolean pressed = tft.getTouch(&x, &y);
+  
+  data->point.x = x; 
+  data->point.y = y;
+  data->state = pressed?LV_INDEV_STATE_PR:LV_INDEV_STATE_REL;
+  return false; /*No buffering now so no more data read*/
 }
 
 void setup() {
@@ -70,7 +70,7 @@ void setup() {
 #endif
 
   tft.begin(); /* TFT init */
-  tft.setRotation(1); /* Landscape orientation */
+  tft.setRotation(3); /* Landscape orientation */
 
   lv_disp_buf_init(&disp_buf, buf, NULL, LV_HOR_RES_MAX * 10);
 
@@ -87,8 +87,8 @@ void setup() {
   /*Initialize the touch pad*/
   lv_indev_drv_t indev_drv;
   lv_indev_drv_init(&indev_drv);
-  indev_drv.type = LV_INDEV_TYPE_ENCODER;
-  indev_drv.read_cb = read_encoder;
+  indev_drv.type = LV_INDEV_TYPE_POINTER;
+  indev_drv.read_cb = read_touchscreen;
   lv_indev_drv_register(&indev_drv);
 
   /*Initialize the graphics library's tick*/
@@ -98,6 +98,14 @@ void setup() {
   lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
   lv_label_set_text(label, "Hello Arduino! (V6.0)");
   lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 0);
+
+  lv_obj_t * btn = lv_btn_create(lv_scr_act(), NULL);     /*Add a button the current screen*/
+lv_obj_set_pos(btn, 10, 10);                            /*Set its position*/
+lv_obj_set_size(btn, 100, 50);                          /*Set its size*/
+//lv_obj_set_event_cb(btn, btn_event_cb);                 /*Assign a callback to the button*/
+
+label = lv_label_create(btn, NULL);          /*Add a label to the button*/
+lv_label_set_text(label, "Button");                     /*Set the labels text*/
 }
 
 
