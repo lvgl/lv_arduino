@@ -1,5 +1,10 @@
 void setup() {
 
+  ledcSetup(10, 5000/*freq*/, 10 /*resolution*/);
+  ledcAttachPin(32, 10);
+  analogReadResolution(10);
+  ledcWrite(10,768);
+
   Serial.begin(115200); /* prepare for possible serial debug */
 
   lv_init();
@@ -41,6 +46,16 @@ void setup() {
 
   /*Initialize the graphics library's tick*/
   tick.attach_ms(LVGL_TICK_PERIOD, lv_tick_handler);
+
+  //Set the theme..
+  lv_theme_t * th = lv_theme_night_init(210, NULL);     //Set a HUE value and a Font for the Night Theme
+  lv_theme_set_current(th);
+
+  lv_obj_t * scr = lv_cont_create(NULL, NULL);
+  lv_disp_load_scr(scr);
+
+  //lv_obj_t * tv = lv_tabview_create(scr, NULL);
+  //lv_obj_set_size(tv, lv_disp_get_hor_res(NULL), lv_disp_get_ver_res(NULL));
 
   /* Create simple label */
   lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
