@@ -1,6 +1,6 @@
 # Example for lv_arduino using a slider
 
-This example has the screen set to 320x480, change this by altering the following lines in the main ino file:
+This example has the screen set to 320x480 (ILI9488), change this by altering the following lines in the main ino file:
 
 int screenWidth = 480;
 int screenHeight = 320;
