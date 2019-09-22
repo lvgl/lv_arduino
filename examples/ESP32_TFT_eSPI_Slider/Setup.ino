@@ -1,10 +1,5 @@
 void setup() {
 
-    ledcSetup(10, 5000/*freq*/, 10 /*resolution*/);
-    ledcAttachPin(32, 10);
-    analogReadResolution(10);
-    ledcWrite(10,768);
-
   Serial.begin(115200); /* prepare for possible serial debug */
 
   lv_init();
