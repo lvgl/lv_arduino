@@ -96,7 +96,7 @@ void setup() {
 
   /* Create simple label */
   lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
-  lv_label_set_text(label, "Hello Arduino! (V6.0)");
+  lv_label_set_text(label, "Hello Arduino! (V6.1)");
   lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 0);
 }
 
