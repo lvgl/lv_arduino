@@ -6,7 +6,7 @@ This library allows to use LittlevGL (v6.x) as an Arduino library. Library can b
 
 There is simple example which uses https://github.com/Bodmer/TFT_eSPI library as an TFT driver to simplify testing. To get all this to work you have to setup TFT_eSPI to work with your TFT display type via editing the `User_Setup.h` file in TFT_eSPI library folder, or by selecting your own configurtion in the `User_Setup_Select.h` file in TFT_eSPI library folder.
 
-LittlevGL library has its own configuration file in `lv_conf.h` file, which is locatd in LittlevGL library folder. Please get in mind to check that corresponding resolutions in LVGL configuration match the ones in TFT_eSPI and with physical resolution of your display.
+LittlevGL library has its own configuration file in `lv_conf.h` file, which is locatd in LittlevGL library folder. Please get in mind to check that the corresponding resolutions in LVGL configuration match the ones in TFT_eSPI and with the physical resolution of your display.
 
 Example result should look like this:
 
@@ -21,7 +21,7 @@ Tested with:
 
 ## Debugging
 
-In case of trouble there are debug information inside LVGL. In the `ESP32_TFT_eSPI` example there is `my_print` method, which allow to send this debug information to the serial interface. To enable this feature you have to edit `lv_conf.h` file and enable logging in section `log settings`:
+In case of trouble there are debug informations inside LVGL. In the `ESP32_TFT_eSPI` example there is `my_print` method, which allow to send this debug informations to the serial interface. To enable this feature you have to edit `lv_conf.h` file and enable logging in section `log settings`:
 
 ```c
 /*Log settings*/
@@ -36,4 +36,4 @@ In case of trouble there are debug information inside LVGL. In the `ESP32_TFT_eS
 #  define LV_LOG_LEVEL    LV_LOG_LEVEL_TRACE
 ```
 
-After enabling log module and setting LV_LOG_LEVEL accordingly the output log is sent to he `Serial` port @ 115200 Bd. After each line sent there is 100ms delay to allow the serial transfer to finish. This delay can be commented out in `my_print` method.
+After enabling log module and setting LV_LOG_LEVEL accordingly the output log is sent to the `Serial` port @ 115200 Bd. After each line sent there is 100ms delay to allow the serial transfer to finish. This delay can be commented out in `my_print` method.
