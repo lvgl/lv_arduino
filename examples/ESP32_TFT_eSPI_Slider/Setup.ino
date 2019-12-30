@@ -59,7 +59,7 @@ void setup() {
 
   /* Create simple label */
   lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
-  lv_label_set_text(label, "Hello Arduino! (V6.0)");
+  lv_label_set_text(label, "Hello Arduino! (V6.1)");
   lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, -50);
 
   /* Create a slider in the center of the display */
@@ -68,7 +68,7 @@ void setup() {
   lv_obj_set_height(slider, 50);
   lv_obj_align(slider, NULL, LV_ALIGN_CENTER, 0, 0);    /*Align to the center of the parent (screen)*/
   lv_obj_set_event_cb(slider, slider_event_cb);         /*Assign an event function*/
-  
+
   /* Create a label below the slider */
   slider_label = lv_label_create(lv_scr_act(), NULL);
   lv_label_set_text(slider_label, "0");
@@ -76,4 +76,4 @@ void setup() {
   lv_obj_align(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
 
 }
-  
+
