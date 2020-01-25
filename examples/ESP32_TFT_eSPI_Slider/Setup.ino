@@ -10,7 +10,7 @@ void setup() {
   lv_init();
 
   #if USE_LV_LOG != 0
-    lv_log_register_print(my_print); /* register print function for debugging */
+    lv_log_register_print_cb(my_print); /* register print function for debugging */
   #endif
 
   tft.begin(); /* TFT init */
@@ -30,19 +30,12 @@ void setup() {
   disp_drv.buffer = &disp_buf;
   lv_disp_drv_register(&disp_drv);
 
+  /*Initialize the input device driver*/
   lv_indev_drv_t indev_drv;
   lv_indev_drv_init(&indev_drv);             /*Descriptor of a input device driver*/
   indev_drv.type = LV_INDEV_TYPE_POINTER;    /*Touch pad is a pointer-like device*/
   indev_drv.read_cb = my_touchpad_read;      /*Set your driver function*/
   lv_indev_drv_register(&indev_drv);         /*Finally register the driver*/
-
-
-  /*Initialize the touch pad*/
-  //lv_indev_drv_t indev_drv;
-  //lv_indev_drv_init(&indev_drv);
-  //indev_drv.type = LV_INDEV_TYPE_ENCODER;
-  //indev_drv.read_cb = read_encoder;
-  //lv_indev_drv_register(&indev_drv);
 
   /*Initialize the graphics library's tick*/
   tick.attach_ms(LVGL_TICK_PERIOD, lv_tick_handler);
