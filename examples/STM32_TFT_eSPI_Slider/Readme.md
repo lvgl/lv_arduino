@@ -1,4 +1,5 @@
 Littlevgl on STM32F103C BluePill and ILI9341 in 8-Bit Parallel with XPT2046 Touch-pad on SPI2 port.
+Which able to dim an LED attached to PB6 Pin (thru 100to330 ohm series resistor from GND) by adjusting the slider.
 Library dependencies:
 1. TFT_eSPI https://github.com/Bodmer/TFT_eSPI
   and choosing the right setup inside User_Setup_Select.h and also set right pins on selected user file.
