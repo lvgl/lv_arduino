@@ -1,6 +1,5 @@
 #include <SPI.h>
 #include <lvgl.h>
-//#include <Ticker.h>
 #include <TFT_eSPI.h>
 #include <TFT_eTouch.h>  // https://github.com/achillhasler/TFT_eTouch
 
@@ -18,7 +17,7 @@ static lv_color_t buf[LV_HOR_RES_MAX * 10];
 
 
 //TFT_eTouch<TFT_eSPI> touch(tft, TFT_ETOUCH_CS, 0xff, TFT_eSPI::getSPIinstance());
-SPIClass spi_touch(PB15, PB14, PB13);//// SPIClass SPITwo(PB15, PB14, PB13); (MOSI, MISO, CLK)
+SPIClass spi_touch(PB15, PB14, PB13);// SPIClass SPITwo(PB15, PB14, PB13); (MOSI, MISO, CLK)
 TFT_eTouch<TFT_eSPI> touch(tft, TFT_ETOUCH_CS, TFT_ETOUCH_PIRQ, spi_touch); 
 
 
@@ -49,8 +48,7 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
 
 bool my_touchpad_read(lv_indev_drv_t * indev_driver, lv_indev_data_t * data)
 {
-    //uint16_t touchX, touchY;
-    //bool touched = tft.getTouch(&touchX, &touchY, 600);  //  uint8_t  getTouch(uint16_t *x, uint16_t *y, uint16_t threshold = 600);
+    
 	int16_t touchX, touchY;
 	bool touched = touch.getXY(touchX, touchY);  //  bool TFT_eTouch<T>::getXY(int16_t& x, int16_t& y)
     
@@ -151,8 +149,7 @@ void setup() {
   tft.begin(); /* TFT init */
   tft.setRotation(1);
 
-  //uint16_t calData[5]= {381, 3515, 261, 3601, 3 };
-  //tft.setTouch(calData);
+
 
   spi_touch.begin();
   touch.init();
