@@ -15,7 +15,7 @@ Library dependencies:
   #define LV_USE_THEME_NIGHT      1   /*Dark elegant theme*/
   #define LV_MEM_CUSTOM      1 // otherwise overfloe the flash on STM32F103CB
   
-![Example](https://github.com/HamidSaffari/lv_arduino/blob/master/examples/STM32_TFT_eSPI_Slider/photo_2020-04-01_22-21-19.jpg)
+![Example](https://github.com/HamidSaffari/lv_arduino/blob/master/examples/STM32_TFT_eSPI_Slider/photo_2020-04-02_01-55-36.jpg)
 
 
   Created by Hamid Saffari @ Apr 2020. https://github.com/HamidSaffari/
