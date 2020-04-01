@@ -1,3 +1,4 @@
+//Created by Hamid Saffari @ Apr 2020. https://github.com/HamidSaffari/ Released into the public domain.
 #include <SPI.h>
 #include <lvgl.h>
 #include <TFT_eSPI.h>
