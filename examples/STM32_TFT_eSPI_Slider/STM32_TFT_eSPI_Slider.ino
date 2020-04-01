@@ -4,11 +4,11 @@
 #include <TFT_eSPI.h>
 #include <TFT_eTouch.h>  // https://github.com/achillhasler/TFT_eTouch
 
-
 /* using TFT_eTouch.h             : 106860 bytes (81%) FALSH,  13432 bytes (65%) RAM 
    using TFT_eSPI.h touch include : 105096 bytes (80%) FALSH,  13392 bytes (65%) RAM 
 */
 
+#define LED_PIN PB6
 #define LVGL_TICK_PERIOD 60
 
 //Ticker tick; /* timer for interrupt handler */
@@ -104,6 +104,10 @@ void slider_event_cb(lv_obj_t * slider, lv_event_t event)
       static char buf[4];                                 /* max 3 bytes  for number plus 1 null terminating byte */
       snprintf(buf, 4, "%u", lv_slider_get_value(slider));
       lv_label_set_text(slider_label, buf);               /*Refresh the text*/
+	  int16_t value = lv_slider_get_value(slider);
+	  value = map(value, 0, 100, 0, 255);
+	  //analogWriteFrequency(2000); // Set PMW period to 2000 Hz instead of 1000
+	  analogWrite(LED_PIN, value);//8-bit by default
   }
 }
 
@@ -144,13 +148,12 @@ void printEvent(String Event, lv_event_t event)
 void setup() {
 
   Serial.begin(115200); /* prepare for possible serial debug */
+  pinMode(LED_PIN, OUTPUT);
   
   lv_init();
 
   tft.begin(); /* TFT init */
   tft.setRotation(1);
-
-
 
   spi_touch.begin();
   touch.init();
@@ -210,7 +213,7 @@ void setup() {
 
   /* Create simple label */
   lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
-  lv_label_set_text(label, "Hello Arduino! (V6.1)");
+  lv_label_set_text(label, "PB6 LED DIMMER");
   lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, -50);
 
   /* Create a slider in the center of the display */
