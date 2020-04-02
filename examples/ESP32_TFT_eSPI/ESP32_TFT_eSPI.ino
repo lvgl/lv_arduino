@@ -66,7 +66,7 @@ void setup() {
   lv_init();
 
 #if USE_LV_LOG != 0
-  lv_log_register_print(my_print); /* register print function for debugging */
+  lv_log_register_print_cb(my_print); /* register print function for debugging */
 #endif
 
   tft.begin(); /* TFT init */
@@ -84,7 +84,7 @@ void setup() {
   lv_disp_drv_register(&disp_drv);
 
 
-  /*Initialize the touch pad*/
+  /*Initialize the input device driver*/
   lv_indev_drv_t indev_drv;
   lv_indev_drv_init(&indev_drv);
   indev_drv.type = LV_INDEV_TYPE_ENCODER;
