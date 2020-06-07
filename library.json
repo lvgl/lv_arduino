@@ -10,9 +10,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/littlevgl/arduino"
+    "url": "https://github.com/lvgl/lv_arduino"
   },
-  "version": "2.1.5",
+  "version": "3.0.0",
   "license": "MIT",
   "frameworks": "arduino",
   "build": {
