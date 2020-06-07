@@ -1173,7 +1173,9 @@ static void draw_y_ticks(lv_obj_t * chart, const lv_area_t * series_area, const 
 
         if(p2.y - label_dsc.font->line_height > mask->y2) return;
         if(p2.y + label_dsc.font->line_height < mask->y1) {
-            get_next_axis_label(&iter, buf);
+            if(is_tick_with_label(i, y_axis)) {
+                get_next_axis_label(&iter, buf);
+            }
             continue;
         }
 
@@ -1259,8 +1261,20 @@ static void draw_x_ticks(lv_obj_t * chart, const lv_area_t * series_area, const 
     lv_draw_label_dsc_init(&label_dsc);
     lv_obj_init_draw_label_dsc(chart, LV_CHART_PART_BG, &label_dsc);
 
+
+    /* calculate the size of tick marks */
+    if(ext->x_axis.major_tick_len == LV_CHART_TICK_LENGTH_AUTO)
+        major_tick_len = (int32_t)w * LV_CHART_AXIS_MAJOR_TICK_LEN_COE;
+    else
+        major_tick_len = ext->x_axis.major_tick_len;
+
+    if(ext->x_axis.minor_tick_len == LV_CHART_TICK_LENGTH_AUTO)
+        minor_tick_len = major_tick_len * LV_CHART_AXIS_MINOR_TICK_LEN_COE;
+    else
+        minor_tick_len = ext->x_axis.minor_tick_len;
+
     if(h + y_ofs > mask->y2) return;
-    if(h + y_ofs + label_dsc.font->line_height + label_dist < mask->y1) return;
+    if(h + y_ofs + label_dist  + label_dsc.font->line_height + major_tick_len < mask->y1) return;
 
     lv_draw_line_dsc_t line_dsc;
     lv_draw_line_dsc_init(&line_dsc);
@@ -1276,17 +1290,6 @@ static void draw_x_ticks(lv_obj_t * chart, const lv_area_t * series_area, const 
     }
 
     char buf[LV_CHART_AXIS_TICK_LABEL_MAX_LEN + 1]; /* up to N symbols per label + null terminator */
-
-    /* calculate the size of tick marks */
-    if(ext->x_axis.major_tick_len == LV_CHART_TICK_LENGTH_AUTO)
-        major_tick_len = (int32_t)w * LV_CHART_AXIS_MAJOR_TICK_LEN_COE;
-    else
-        major_tick_len = ext->x_axis.major_tick_len;
-
-    if(ext->x_axis.minor_tick_len == LV_CHART_TICK_LENGTH_AUTO)
-        minor_tick_len = major_tick_len * LV_CHART_AXIS_MINOR_TICK_LEN_COE;
-    else
-        minor_tick_len = ext->x_axis.minor_tick_len;
 
     /*determine the number of options */
     iter = create_axis_label_iter(ext->x_axis.list_of_values, LV_CHART_LABEL_ITERATOR_FORWARD);
