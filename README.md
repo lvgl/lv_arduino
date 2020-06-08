@@ -1,6 +1,6 @@
-# LittlevGL Arduino library
+# LVGL Arduino library
 
-This library allows to use LittlevGL (v6.x) as an Arduino library. Library can be installed via Arduino IDE Library Manager or as an .ZIP library.
+This library allows to use LVGL (v7.0.x) as an Arduino library. Library can be installed via Arduino IDE Library Manager or as an .ZIP library.
 
 ## Example
 
@@ -15,9 +15,9 @@ Example result should look like this:
 Tested with:
 
   * My own ESP32 board, module ESP32 Wroom
-  * PC OS: Linux, Ubuntu 18.04 LTS
-  * IDE: Arduino IDE 1.8.9
-  * ESP32 Core: 1.0.2
+  * PC OS: Linux, Ubuntu 20.04 LTS
+  * IDE: Arduino IDE 1.8.12
+  * ESP32 Core: 1.0.4
 
 ## Debugging
 
@@ -26,14 +26,15 @@ In case of trouble there are debug informations inside LVGL. In the `ESP32_TFT_e
 ```c
 /*Log settings*/
 #define USE_LV_LOG      1   /*Enable/disable the log module*/
-#if USE_LV_LOG
+#if LV_USE_LOG
 /* How important log should be added:
  * LV_LOG_LEVEL_TRACE       A lot of logs to give detailed information
  * LV_LOG_LEVEL_INFO        Log important events
- * LV_LOG_LEVEL_WARN        Log if something unwanted happened but didn't caused problem
+ * LV_LOG_LEVEL_WARN        Log if something unwanted happened but didn't cause a problem
  * LV_LOG_LEVEL_ERROR       Only critical issue, when the system may fail
+ * LV_LOG_LEVEL_NONE        Do not log anything
  */
-#  define LV_LOG_LEVEL    LV_LOG_LEVEL_TRACE
+#  define LV_LOG_LEVEL    LV_LOG_LEVEL_WARN
 ```
 
 After enabling log module and setting LV_LOG_LEVEL accordingly the output log is sent to the `Serial` port @ 115200 Bd.
