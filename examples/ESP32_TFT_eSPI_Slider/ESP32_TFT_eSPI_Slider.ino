@@ -1,10 +1,9 @@
 #include <lvgl.h>
-#include <Ticker.h>
 #include <TFT_eSPI.h>
 
 #define LVGL_TICK_PERIOD 60
 
-Ticker tick; /* timer for interrupt handler */
+//Ticker tick; /* timer for interrupt handler */
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 static lv_disp_buf_t disp_buf;
 static lv_color_t buf[LV_HOR_RES_MAX * 10];
@@ -81,11 +80,4 @@ bool my_touchpad_read(lv_indev_drv_t * indev_driver, lv_indev_data_t * data)
     }
 
     return false; /*Return `false` because we are not buffering and no more data to read*/
-}
-
-/* Interrupt driven periodic handler */
-static void lv_tick_handler(void)
-{
-
-  lv_tick_inc(LVGL_TICK_PERIOD);
 }
