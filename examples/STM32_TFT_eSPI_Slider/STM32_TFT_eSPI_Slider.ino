@@ -9,9 +9,7 @@
 */
 
 #define LED_PIN PB6
-#define LVGL_TICK_PERIOD 60
 
-//Ticker tick; /* timer for interrupt handler */
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 static lv_disp_buf_t disp_buf;
 static lv_color_t buf[LV_HOR_RES_MAX * 10];
@@ -89,11 +87,6 @@ bool my_touchpad_read(lv_indev_drv_t * indev_driver, lv_indev_data_t * data)
     return false; /*Return `false` because we are not buffering and no more data to read*/
 }
 
-/* Interrupt driven periodic handler */
-static void lv_tick_handler(void)
-{
-  lv_tick_inc(LVGL_TICK_PERIOD);
-}
 
 void slider_event_cb(lv_obj_t * slider, lv_event_t event)
 {
@@ -189,21 +182,9 @@ void setup() {
   indev_drv.read_cb = my_touchpad_read;      /*Set your driver function*/
   lv_indev_drv_register(&indev_drv);         /*Finally register the driver*/
 
-
-  /*Initialize the graphics library's tick*/
-  ////tick.attach_ms(LVGL_TICK_PERIOD, lv_tick_handler);
-
-  TIM_TypeDef *Instance = TIM2;
-  // Instantiate HardwareTimer object. Thanks to 'new' instanciation, HardwareTimer is not destructed when setup() function is finished.
-  HardwareTimer *MyTim = new HardwareTimer(Instance);
-  //MyTim->setMode(2, TIMER_OUTPUT_COMPARE);
-  MyTim->setOverflow(LVGL_TICK_PERIOD*1000, MICROSEC_FORMAT);
-  MyTim->attachInterrupt(lv_tick_handler);
-  MyTim->resume();
-
   //Set the theme..
-  lv_theme_t * th = lv_theme_night_init(210, NULL);     //Set a HUE value and a Font for the Night Theme
-  lv_theme_set_current(th);
+  //lv_theme_t * th = lv_theme_night_init(210, NULL);     //Set a HUE value and a Font for the Night Theme
+  //lv_theme_set_current(th);
 
   lv_obj_t * scr = lv_cont_create(NULL, NULL);
   lv_disp_load_scr(scr);
