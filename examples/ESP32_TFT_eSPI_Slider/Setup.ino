@@ -37,12 +37,9 @@ void setup() {
   indev_drv.read_cb = my_touchpad_read;      /*Set your driver function*/
   lv_indev_drv_register(&indev_drv);         /*Finally register the driver*/
 
-  /*Initialize the graphics library's tick*/
-  tick.attach_ms(LVGL_TICK_PERIOD, lv_tick_handler);
-
   //Set the theme..
-  lv_theme_t * th = lv_theme_night_init(210, NULL);     //Set a HUE value and a Font for the Night Theme
-  lv_theme_set_current(th);
+  lv_theme_t * th = lv_theme_material_init(LV_THEME_DEFAULT_COLOR_PRIMARY, LV_THEME_DEFAULT_COLOR_SECONDARY, LV_THEME_DEFAULT_FLAG, LV_THEME_DEFAULT_FONT_SMALL , LV_THEME_DEFAULT_FONT_NORMAL, LV_THEME_DEFAULT_FONT_SUBTITLE, LV_THEME_DEFAULT_FONT_TITLE);     
+  lv_theme_set_act(th);
 
   lv_obj_t * scr = lv_cont_create(NULL, NULL);
   lv_disp_load_scr(scr);
@@ -52,7 +49,7 @@ void setup() {
 
   /* Create simple label */
   lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
-  lv_label_set_text(label, "Hello Arduino! (V6.1)");
+  lv_label_set_text(label, "Hello Arduino! (V7.0)");
   lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, -50);
 
   /* Create a slider in the center of the display */
@@ -69,4 +66,3 @@ void setup() {
   lv_obj_align(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
 
 }
-
