@@ -11,7 +11,7 @@
 #if LV_USE_ANIMATION
 #include <stddef.h>
 #include <string.h>
-#include "../lv_core/lv_debug.h"
+#include "../lv_misc/lv_debug.h"
 #include "../lv_hal/lv_hal_tick.h"
 #include "lv_task.h"
 #include "lv_math.h"
@@ -64,7 +64,7 @@ void _lv_anim_core_init(void)
     last_task_run = lv_tick_get();
     _lv_anim_task = lv_task_create(anim_task, LV_DISP_DEF_REFR_PERIOD, LV_ANIM_TASK_PRIO, NULL);
     anim_mark_list_change(); /*Turn off the animation task*/
-    anim_list_changed = false; /*The list has not actaully changed*/
+    anim_list_changed = false; /*The list has not actually changed*/
 }
 
 /**
@@ -73,7 +73,6 @@ void _lv_anim_core_init(void)
  * lv_anim_t a;
  * lv_anim_init(&a);
  * lv_anim_set_...(&a);
- * lv_anim_craete(&a);
  * @param a pointer to an `lv_anim_t` variable to initialize
  */
 void lv_anim_init(lv_anim_t * a)
@@ -501,7 +500,7 @@ static void anim_task(lv_task_t * param)
  * Called when an animation is ready to do the necessary thinks
  * e.g. repeat, play back, delete etc.
  * @param a pointer to an animation descriptor
- * @return true: animation delete occurred nnd the `LV_GC_ROOT(_lv_anim_ll)` has changed
+ * @return true: animation delete occurred and the `LV_GC_ROOT(_lv_anim_ll)` has changed
  * */
 static bool anim_ready_handler(lv_anim_t * a)
 {
@@ -529,11 +528,11 @@ static bool anim_ready_handler(lv_anim_t * a)
     }
     /*If the animation is not deleted then restart it*/
     else {
-        a->act_time = -a->repeat_delay; /*Restart the animation*/
+        a->act_time = -(int32_t)(a->repeat_delay); /*Restart the animation*/
         /*Swap the start and end values in play back mode*/
         if(a->playback_time != 0) {
             /*If now turning back use the 'playback_pause*/
-            if(a->playback_now == 0) a->act_time = -a->playback_delay;
+            if(a->playback_now == 0) a->act_time = -(int32_t)(a->playback_delay);
 
             /*Toggle the play back state*/
             a->playback_now = a->playback_now == 0 ? 1 : 0;
