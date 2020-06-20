@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/lvgl/lv_arduino"
   },
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "frameworks": "arduino",
   "build": {

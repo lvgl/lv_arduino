@@ -15,7 +15,7 @@
     #error "lv_sw: lv_slider is required. Enable it in lv_conf.h (LV_USE_SLIDER  1) "
 #endif
 
-#include "../lv_core/lv_debug.h"
+#include "../lv_misc/lv_debug.h"
 #include "../lv_themes/lv_theme.h"
 #include "../lv_misc/lv_math.h"
 #include "../lv_core/lv_indev.h"
@@ -116,7 +116,7 @@ lv_obj_t * lv_switch_create(lv_obj_t * par, const lv_obj_t * copy)
 
 /**
  * Turn ON the switch
- * @param sw pointer to a switch objec
+ * @param sw pointer to a switch object
  * @param anim LV_ANOM_ON: set the value with an animation; LV_ANIM_OFF: change the value immediately
  */
 void lv_switch_on(lv_obj_t * sw, lv_anim_enable_t anim)

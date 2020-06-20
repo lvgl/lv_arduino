@@ -10,7 +10,7 @@
 #include "lv_roller.h"
 #if LV_USE_ROLLER != 0
 
-#include "../lv_core/lv_debug.h"
+#include "../lv_misc/lv_debug.h"
 #include "../lv_draw/lv_draw.h"
 #include "../lv_core/lv_group.h"
 #include "../lv_themes/lv_theme.h"
@@ -76,7 +76,7 @@ lv_obj_t * lv_roller_create(lv_obj_t * par, const lv_obj_t * copy)
     LV_ASSERT_MEM(roller);
     if(roller == NULL) return NULL;
 
-    if(ancestor_scrl_signal == NULL) ancestor_scrl_signal = lv_obj_get_signal_cb(lv_page_get_scrllable(roller));
+    if(ancestor_scrl_signal == NULL) ancestor_scrl_signal = lv_obj_get_signal_cb(lv_page_get_scrollable(roller));
     if(ancestor_signal == NULL) ancestor_signal = lv_obj_get_signal_cb(roller);
 
     /*Allocate the roller type specific extended data*/
@@ -104,9 +104,9 @@ lv_obj_t * lv_roller_create(lv_obj_t * par, const lv_obj_t * copy)
         lv_obj_t * label = lv_label_create(roller, NULL);
         lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
 
-        lv_obj_t * scrl = lv_page_get_scrllable(roller);
+        lv_obj_t * scrl = lv_page_get_scrollable(roller);
         lv_obj_set_drag(scrl, true);
-        lv_page_set_scrllable_fit2(roller, LV_FIT_PARENT, LV_FIT_NONE); /*Height is specified directly*/
+        lv_page_set_scrollable_fit2(roller, LV_FIT_PARENT, LV_FIT_NONE); /*Height is specified directly*/
         lv_roller_set_anim_time(roller, LV_ROLLER_DEF_ANIM_TIME);
         lv_roller_set_options(roller, "Option 1\nOption 2\nOption 3\nOption 4\nOption 5", LV_ROLLER_MODE_NORMAL);
 
@@ -123,7 +123,7 @@ lv_obj_t * lv_roller_create(lv_obj_t * par, const lv_obj_t * copy)
         lv_roller_ext_t * copy_ext = lv_obj_get_ext_attr(copy);
         lv_roller_set_options(roller, lv_roller_get_options(copy), copy_ext->mode);
         ext->auto_fit = copy_ext->auto_fit;
-        lv_obj_t * scrl = lv_page_get_scrllable(roller);
+        lv_obj_t * scrl = lv_page_get_scrollable(roller);
         lv_obj_set_signal_cb(scrl, lv_roller_scrl_signal);
     }
 
@@ -156,7 +156,7 @@ void lv_roller_set_options(lv_obj_t * roller, const char * options, lv_roller_mo
 
     /*Count the '\n'-s to determine the number of options*/
     ext->option_cnt = 0;
-    uint16_t cnt;
+    uint32_t cnt;
     for(cnt = 0; options[cnt] != '\0'; cnt++) {
         if(options[cnt] == '\n') ext->option_cnt++;
     }
@@ -310,13 +310,13 @@ uint16_t lv_roller_get_selected(const lv_obj_t * roller)
  * @param buf pointer to an array to store the string
  * @param buf_size size of `buf` in bytes. 0: to ignore it.
  */
-void lv_roller_get_selected_str(const lv_obj_t * roller, char * buf, uint16_t buf_size)
+void lv_roller_get_selected_str(const lv_obj_t * roller, char * buf, uint32_t buf_size)
 {
     LV_ASSERT_OBJ(roller, LV_OBJX_NAME);
 
     lv_roller_ext_t * ext = lv_obj_get_ext_attr(roller);
     lv_obj_t * label = get_label(roller);
-    uint16_t i;
+    uint32_t i;
     uint16_t line        = 0;
     const char * opt_txt = lv_label_get_text(label);
     size_t txt_len     = strlen(opt_txt);
@@ -325,7 +325,7 @@ void lv_roller_get_selected_str(const lv_obj_t * roller, char * buf, uint16_t bu
         if(opt_txt[i] == '\n') line++;
     }
 
-    uint16_t c;
+    uint32_t c;
     for(c = 0; i < txt_len && opt_txt[i] != '\n'; c++, i++) {
         if(buf_size && c >= buf_size - 1) {
             LV_LOG_WARN("lv_dropdown_get_selected_str: the buffer was too small")
@@ -403,7 +403,7 @@ const char * lv_roller_get_options(const lv_obj_t * roller)
  * @param mode LV_DESIGN_COVER_CHK: only check if the object fully covers the 'mask_p' area
  *                                  (return 'true' if yes)
  *             LV_DESIGN_DRAW: draw the object (always return 'true')
- *             LV_DESIGN_DRAW_POST: drawing after every children are drawn
+ *             LV_DESIGN_DRAW_POST: drawing after all children are drawn
  * @param return an element of `lv_design_res_t`
  */
 static lv_design_res_t lv_roller_design(lv_obj_t * roller, const lv_area_t * clip_area, lv_design_mode_t mode)
@@ -499,6 +499,9 @@ static lv_res_t lv_roller_signal(lv_obj_t * roller, lv_signal_t sign, void * par
     lv_roller_ext_t * ext = lv_obj_get_ext_attr(roller);
 
     if(sign == LV_SIGNAL_STYLE_CHG) {
+        lv_obj_t * label = get_label(roller);
+        /*Be sure the label's style is updated before processing the roller*/
+        if(label) lv_signal_send(label, LV_SIGNAL_STYLE_CHG, NULL);
         refr_height(roller);
         refr_width(roller);
         refr_position(roller, false);
@@ -508,7 +511,7 @@ static lv_res_t lv_roller_signal(lv_obj_t * roller, lv_signal_t sign, void * par
         if(lv_obj_get_width(roller) != lv_area_get_width(param) ||
            lv_obj_get_height(roller) != lv_area_get_height(param)) {
 #if LV_USE_ANIMATION
-            lv_anim_del(lv_page_get_scrllable(roller), (lv_anim_exec_xcb_t)lv_obj_set_y);
+            lv_anim_del(lv_page_get_scrollable(roller), (lv_anim_exec_xcb_t)lv_obj_set_y);
 #endif
             refr_position(roller, false);
             refr_width(roller);
@@ -539,7 +542,7 @@ static lv_res_t lv_roller_signal(lv_obj_t * roller, lv_signal_t sign, void * par
         }
         else {
             ext->sel_opt_id_ori = ext->sel_opt_id; /*Save the current value. Used to revert this state if
-                                                                    ENTER wont't be pressed*/
+                                                                    ENTER won't be pressed*/
         }
 #endif
     }
@@ -556,14 +559,14 @@ static lv_res_t lv_roller_signal(lv_obj_t * roller, lv_signal_t sign, void * par
         char c = *((char *)param);
         if(c == LV_KEY_RIGHT || c == LV_KEY_DOWN) {
             if(ext->sel_opt_id + 1 < ext->option_cnt) {
-                uint16_t ori_id = ext->sel_opt_id_ori; /*lv_roller_set_selceted will overwrite this*/
+                uint16_t ori_id = ext->sel_opt_id_ori; /*lv_roller_set_selected will overwrite this*/
                 lv_roller_set_selected(roller, ext->sel_opt_id + 1, true);
                 ext->sel_opt_id_ori = ori_id;
             }
         }
         else if(c == LV_KEY_LEFT || c == LV_KEY_UP) {
             if(ext->sel_opt_id > 0) {
-                uint16_t ori_id = ext->sel_opt_id_ori; /*lv_roller_set_selceted will overwrite this*/
+                uint16_t ori_id = ext->sel_opt_id_ori; /*lv_roller_set_selected will overwrite this*/
 
                 lv_roller_set_selected(roller, ext->sel_opt_id - 1, true);
                 ext->sel_opt_id_ori = ori_id;
@@ -605,7 +608,7 @@ static lv_style_list_t * lv_roller_get_style(lv_obj_t * roller, uint8_t part)
 
 /**
  * Signal function of the scrollable part of the roller.
- * @param roller_scrl ointer to the scrollable part of roller (page)
+ * @param roller_scrl pointer to the scrollable part of roller (page)
  * @param sign a signal type from lv_signal_t enum
  * @param param pointer to a signal specific variable
  * @return LV_RES_OK: the object is not deleted in the function; LV_RES_INV: the object is deleted
@@ -645,7 +648,7 @@ static lv_res_t lv_roller_scrl_signal(lv_obj_t * roller_scrl, lv_signal_t sign, 
 
         ext->sel_opt_id     = id;
         ext->sel_opt_id_ori = id;
-        res                        = lv_event_send(roller, LV_EVENT_VALUE_CHANGED, &id);
+        res = lv_event_send(roller, LV_EVENT_VALUE_CHANGED, &id);
         if(res != LV_RES_OK) return res;
     }
     /*If picked an option by clicking then set it*/
@@ -659,7 +662,7 @@ static lv_res_t lv_roller_scrl_signal(lv_obj_t * roller_scrl, lv_signal_t sign, 
     }
     else if(sign == LV_SIGNAL_PARENT_SIZE_CHG) {
 #if LV_USE_ANIMATION
-        lv_anim_del(lv_page_get_scrllable(roller), (lv_anim_exec_xcb_t)lv_obj_set_y);
+        lv_anim_del(lv_page_get_scrollable(roller), (lv_anim_exec_xcb_t)lv_obj_set_y);
 #endif
         refr_position(roller, false);
         refr_width(roller);
@@ -740,7 +743,7 @@ static void refr_position(lv_obj_t * roller, lv_anim_enable_t anim_en)
     anim_en = LV_ANIM_OFF;
 #endif
 
-    lv_obj_t * roller_scrl         = lv_page_get_scrllable(roller);
+    lv_obj_t * roller_scrl         = lv_page_get_scrollable(roller);
     lv_roller_ext_t * ext          = lv_obj_get_ext_attr(roller);
     const lv_font_t * font = lv_obj_get_style_text_font(roller, LV_ROLLER_PART_BG);
     lv_style_int_t line_space = lv_obj_get_style_text_line_space(roller, LV_ROLLER_PART_BG);
@@ -748,7 +751,7 @@ static void refr_position(lv_obj_t * roller, lv_anim_enable_t anim_en)
     lv_coord_t h                   = lv_obj_get_height(roller);
     uint16_t anim_time             = lv_roller_get_anim_time(roller);
 
-    /* Normally the animtaion's `end_cb` sets correct position of the roller is infinite.
+    /* Normally the animation's `end_cb` sets correct position of the roller is infinite.
      * But without animations do it manually*/
     if(anim_en == LV_ANIM_OFF || anim_time == 0) {
         inf_normalize(roller_scrl);
@@ -815,7 +818,7 @@ static lv_res_t release_handler(lv_obj_t * roller)
         lv_indev_get_point(indev, &p);
         p.y -= label->coords.y1;
         p.x -= label->coords.x1;
-        uint16_t letter_i;
+        uint32_t letter_i;
         letter_i = lv_label_get_letter_on(label, &p);
 
         const char * txt  = lv_label_get_text(label);
@@ -867,7 +870,7 @@ static void refr_width(lv_obj_t * roller)
 }
 
 /**
- * Refresh the height of the roller and the scrolable
+ * Refresh the height of the roller and the scrollable
  * @param roller pointer to roller
  */
 static void refr_height(lv_obj_t * roller)
@@ -875,16 +878,16 @@ static void refr_height(lv_obj_t * roller)
     lv_obj_t * label = get_label(roller);
     if(label == NULL) return;
 
-    lv_obj_set_height(lv_page_get_scrllable(roller), lv_obj_get_height(label) + lv_obj_get_height(roller));
+    lv_obj_set_height(lv_page_get_scrollable(roller), lv_obj_get_height(label) + lv_obj_get_height(roller));
 
 #if LV_USE_ANIMATION
-    lv_anim_del(lv_page_get_scrllable(roller), (lv_anim_exec_xcb_t)lv_obj_set_y);
+    lv_anim_del(lv_page_get_scrollable(roller), (lv_anim_exec_xcb_t)lv_obj_set_y);
 #endif
     refr_position(roller, LV_ANIM_OFF);
 }
 
 /**
- * Set the middle page for the roller if inifinte is enabled
+ * Set the middle page for the roller if infinite is enabled
  * @param scrl pointer to the roller's scrollable (lv_obj_t *)
  */
 static void inf_normalize(void * scrl)
@@ -916,7 +919,7 @@ static void inf_normalize(void * scrl)
 
 static lv_obj_t * get_label(const lv_obj_t * roller)
 {
-    lv_obj_t * scrl = lv_page_get_scrllable(roller);
+    lv_obj_t * scrl = lv_page_get_scrollable(roller);
     if(scrl == NULL) return NULL;   /*The roller is being deleted, the scrollable already not exists*/
     return lv_obj_get_child(scrl, NULL);
 }

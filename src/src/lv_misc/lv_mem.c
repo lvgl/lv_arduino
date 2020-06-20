@@ -108,7 +108,7 @@ static lv_mem_buf_t mem_buf_small[] = {{.p = mem_buf1_32, .size = MEM_BUF_SMALL_
  **********************/
 
 /**
- * Initiaiize the dyn_mem module (work memory and other variables)
+ * Initialize the dyn_mem module (work memory and other variables)
  */
 void _lv_mem_init(void)
 {
@@ -157,16 +157,10 @@ void * lv_mem_alloc(size_t size)
 
 #ifdef LV_ARCH_64
     /*Round the size up to 8*/
-    if(size & 0x7) {
-        size = size & (~0x7);
-        size += 8;
-    }
+    size = (size + 7) & (~0x7);
 #else
     /*Round the size up to 4*/
-    if(size & 0x3) {
-        size = size & (~0x3);
-        size += 4;
-    }
+    size = (size + 3) & (~0x3);
 #endif
     void * alloc = NULL;
 
@@ -281,16 +275,10 @@ void * lv_mem_realloc(void * data_p, size_t new_size)
 
 #ifdef LV_ARCH_64
     /*Round the size up to 8*/
-    if(new_size & 0x7) {
-        new_size = new_size & (~0x7);
-        new_size += 8;
-    }
+    new_size = (new_size + 7) & (~0x7);
 #else
     /*Round the size up to 4*/
-    if(new_size & 0x3) {
-        new_size = new_size & (~0x3);
-        new_size += 4;
-    }
+    new_size = (new_size + 3) & (~0x3);
 #endif
 
     /*data_p could be previously freed pointer (in this case it is invalid)*/
@@ -525,14 +513,13 @@ void * _lv_mem_buf_get(uint32_t size)
             /*if this fails you probably need to increase your LV_MEM_SIZE/heap size*/
             LV_GC_ROOT(_lv_mem_buf[i]).p = lv_mem_realloc(LV_GC_ROOT(_lv_mem_buf[i]).p, size);
             if(LV_GC_ROOT(_lv_mem_buf[i]).p == NULL) {
-                LV_LOG_ERROR("lv_mem_buf_get: Out of memory, can't allocate a new  buffer (increase your LV_MEM_SIZE/heap size)")
+                LV_DEBUG_ASSERT(false, "Out of memory, can't allocate a new  buffer (increase your LV_MEM_SIZE/heap size", 0x00);
             }
             return  LV_GC_ROOT(_lv_mem_buf[i]).p;
         }
     }
 
-    LV_LOG_ERROR("lv_mem_buf_get: no free buffer. Increase LV_DRAW_BUF_MAX_NUM.");
-
+    LV_DEBUG_ASSERT(false, "No free buffer. Increase LV_DRAW_BUF_MAX_NUM.", 0x00);
     return NULL;
 }
 
@@ -858,18 +845,13 @@ static void * ent_alloc(lv_mem_ent_t * e, size_t size)
  */
 static void ent_trunc(lv_mem_ent_t * e, size_t size)
 {
+
 #ifdef LV_ARCH_64
     /*Round the size up to 8*/
-    if(size & 0x7) {
-        size = size & (~0x7);
-        size += 8;
-    }
+    size = (size + 7) & (~0x7);
 #else
     /*Round the size up to 4*/
-    if(size & 0x3) {
-        size = size & (~0x3);
-        size += 4;
-    }
+    size = (size + 3) & (~0x3);
 #endif
 
     /*Don't let empty space only for a header without data*/

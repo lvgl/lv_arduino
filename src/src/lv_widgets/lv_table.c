@@ -9,7 +9,7 @@
 #include "lv_table.h"
 #if LV_USE_TABLE != 0
 
-#include "../lv_core/lv_debug.h"
+#include "../lv_misc/lv_debug.h"
 #include "../lv_core/lv_indev.h"
 #include "../lv_misc/lv_txt.h"
 #include "../lv_misc/lv_math.h"
@@ -197,7 +197,7 @@ void lv_table_set_row_cnt(lv_obj_t * table, uint16_t row_cnt)
         LV_ASSERT_MEM(ext->cell_data);
         if(ext->cell_data == NULL) return;
 
-        /*Initilize the new fields*/
+        /*Initialize the new fields*/
         if(old_row_cnt < row_cnt) {
             uint16_t old_cell_cnt = old_row_cnt * ext->col_cnt;
             uint32_t new_cell_cnt = ext->col_cnt * ext->row_cnt;
@@ -239,7 +239,7 @@ void lv_table_set_col_cnt(lv_obj_t * table, uint16_t col_cnt)
         LV_ASSERT_MEM(ext->cell_data);
         if(ext->cell_data == NULL) return;
 
-        /*Initilize the new fields*/
+        /*Initialize the new fields*/
         if(old_col_cnt < col_cnt) {
             uint16_t old_cell_cnt = old_col_cnt * ext->row_cnt;
             uint32_t new_cell_cnt = ext->col_cnt * ext->row_cnt;

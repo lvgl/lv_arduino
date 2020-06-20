@@ -14,7 +14,7 @@
 #include "lv_hal.h"
 #include "../lv_misc/lv_mem.h"
 #include "../lv_misc/lv_gc.h"
-#include "../lv_core/lv_debug.h"
+#include "../lv_misc/lv_debug.h"
 #include "../lv_core/lv_obj.h"
 #include "../lv_core/lv_refr.h"
 #include "../lv_themes/lv_theme.h"
@@ -157,6 +157,11 @@ lv_disp_t * lv_disp_drv_register(lv_disp_drv_t * driver)
     disp_def = disp_def_tmp; /*Revert the default display*/
 
     lv_task_ready(disp->refr_task); /*Be sure the screen will be refreshed immediately on start up*/
+
+    /*Can't handle this case later so add an error*/
+    if(lv_disp_is_true_double_buf(disp) && disp->driver.set_px_cb) {
+        LV_LOG_ERROR("Can't handle 2 screen sized buffers with set_px_cb. Display will not be refreshed.");
+    }
 
     return disp;
 }
