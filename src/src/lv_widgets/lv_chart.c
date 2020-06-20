@@ -9,7 +9,7 @@
 #include "lv_chart.h"
 #if LV_USE_CHART != 0
 
-#include "../lv_core/lv_debug.h"
+#include "../lv_misc/lv_debug.h"
 #include "../lv_core/lv_refr.h"
 #include "../lv_draw/lv_draw.h"
 #include "../lv_misc/lv_math.h"
@@ -203,9 +203,9 @@ lv_chart_series_t * lv_chart_add_series(lv_obj_t * chart, lv_color_t color)
 }
 
 /**
- * Clear the point of a serie
+ * Clear the point of a series
  * @param chart pointer to a chart object
- * @param serie pointer to the chart's serie to clear
+ * @param serie pointer to the chart's series to clear
  */
 void lv_chart_clear_serie(lv_obj_t * chart, lv_chart_series_t * serie)
 {
@@ -650,9 +650,10 @@ static lv_res_t lv_chart_signal(lv_obj_t * chart, lv_signal_t sign, void * param
     lv_chart_ext_t * ext = lv_obj_get_ext_attr(chart);
 
     if(sign == LV_SIGNAL_CLEANUP) {
-        lv_coord_t ** datal;
-        _LV_LL_READ(ext->series_ll, datal) {
-            lv_mem_free(*datal);
+        lv_chart_series_t * ser;
+        _LV_LL_READ(ext->series_ll, ser) {
+            lv_mem_free(ser->points);
+            lv_mem_free(ser);
         }
         _lv_ll_clear(&ext->series_ll);
 

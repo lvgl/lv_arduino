@@ -116,7 +116,6 @@ void _lv_anim_core_init(void);
  * lv_anim_t a;
  * lv_anim_init(&a);
  * lv_anim_set_...(&a);
- * lv_anim_create(&a);
  * @param a pointer to an `lv_anim_t` variable to initialize
  */
 void lv_anim_init(lv_anim_t * a);
@@ -160,7 +159,7 @@ static inline void lv_anim_set_time(lv_anim_t * a, uint32_t duration)
  */
 static inline void lv_anim_set_delay(lv_anim_t * a, uint32_t delay)
 {
-    a->act_time = (int32_t)(-delay);
+    a->act_time = -(int32_t)(delay);
 }
 
 /**
