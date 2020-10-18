@@ -1,3 +1,5 @@
+:warning: This library is now obsolete. Please use https://github.com/arduino/Arduino/issues/10592 instead. :warning:
+
 # LVGL Arduino library
 
 This library allows to use LVGL (v7.0.x) as an Arduino library. Library can be installed via Arduino IDE Library Manager or as an .ZIP library.
