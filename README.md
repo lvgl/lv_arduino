@@ -27,7 +27,7 @@ In case of trouble there are debug informations inside LVGL. In the `ESP32_TFT_e
 
 ```c
 /*Log settings*/
-#define USE_LV_LOG      1   /*Enable/disable the log module*/
+#define LV_USE_LOG      1   /*Enable/disable the log module*/
 #if LV_USE_LOG
 /* How important log should be added:
  * LV_LOG_LEVEL_TRACE       A lot of logs to give detailed information
